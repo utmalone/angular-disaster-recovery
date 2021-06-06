@@ -1,0 +1,35 @@
+<h1>Timesheet Approval</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 30%">Site Code</th>
+            <th style="width: 30%">Contractor</th>
+            <th style="width: 30%">Total Hrs</th>
+            <th style="width: 30%">Total Amount</th>
+            <th style="width: 10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let time of card">
+            <td>{{time.code}}</td>
+            <td>{{time.name}}</td>
+            <td>{{time.hours}} Hrs</td>
+            <td>$ {{time.amount}}</td>
+            <td style="white-space: nowrap">
+
+                <button (click)="toggleNamedColor(friend)" (click)="changeText(friend, $event)" ion-button round [color]="friend.ionicNamedColor" item-end >{{friend.text}}</button> 
+
+                <!-- <a routerLink="edit/{{user.id}}" class="btn btn-sm btn-primary mr-1">Edit</a>
+                <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
+                    <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!user.isDeleting">Delete</span>
+                </button> -->
+            </td>
+        </tr>
+        <tr *ngIf="!users">
+            <td colspan="4" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
