@@ -1,0 +1,35 @@
+<app-admin-nav></app-admin-nav>
+
+<h1>Jobs</h1>
+<a routerLink="/admin/jobs/add-edit" class="btn btn-sm btn-success mb-2">Add Job</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 30%">Job Code</th>
+            <th style="width: 30%">Description</th>
+            <th style="width: 30%">Rate</th>
+            <th style="width: 30%">Max Daily Hours</th>
+            <th style="width: 10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of jobs">
+            <td>{{user.code}}</td>
+            <td>{{user.description}}</td>
+            <td>{{user.rate}}</td>
+            <td>{{user.hours}}</td>
+            <td style="white-space: nowrap">
+                <a routerLink="edit/{{user.code}}" class="btn btn-sm btn-primary mr-1">Edit</a>
+                <button (click)="deleteUser(user.code)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
+                    <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!user.isDeleting">Delete</span>
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="!jobs">
+            <td colspan="4" class="text-center">
+                <span class="align-center">No Data</span>
+            </td>
+        </tr>
+    </tbody>
+</table>

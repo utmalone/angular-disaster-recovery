@@ -1,0 +1,44 @@
+<!-- <style>
+    .apply{
+        position: absolute;
+    }
+</style> -->
+
+<app-user-nav></app-user-nav>
+
+<h1 class=" ml-4 position-absolute mt-4">Timesheet Approval</h1>
+<button routerLink="/user/timecard/submit" class="apply mb-4 mt-5 btn btn-success float-right mr-5">Submit Job</button>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 30%">Site Code</th>
+            <th style="width: 30%">Contractor</th>
+            <th style="width: 30%">Total Hrs</th>
+            <th style="width: 30%">Total Amount</th>
+            <th style="width: 10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let time of card">
+            <td>{{time.code}}</td>
+            <td>{{time.name}}</td>
+            <td>{{time.hours}} Hrs</td>
+            <td>$ {{time.amount}}</td>
+            <td style="white-space: nowrap">
+
+                <button (click)="toggleNamedColor(friend)" (click)="changeText(friend, $event)" ion-button round [color]="friend.ionicNamedColor" item-end >{{friend.text}}</button> 
+
+                <!-- <a routerLink="edit/{{user.id}}" class="btn btn-sm btn-primary mr-1">Edit</a>
+                <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
+                    <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!user.isDeleting">Delete</span>
+                </button> -->
+            </td>
+        </tr>
+        <tr *ngIf="!users">
+            <td colspan="4" class="text-center">
+                <span class="align-center">No Data</span>
+            </td>
+        </tr>
+    </tbody>
+</table>

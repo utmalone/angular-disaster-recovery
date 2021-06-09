@@ -1,0 +1,45 @@
+<div class="contrainer ml-5 mr-5">
+<h1 *ngIf="isAddMode">Add User</h1>
+<h1 *ngIf="!isAddMode">Edit User</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="code">Job Code</label>
+            <input type="text" formControlName="code" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.code.errors }" />
+            <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+                <div *ngIf="f.firstName.errors.required">Job Code is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="description">Description</label>
+            <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }" />
+            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                <div *ngIf="f.description.errors.required">Description is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="rate">Rate</label>
+            <input type="text" formControlName="rate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.rate.errors }" />
+            <div *ngIf="submitted && f.rate.errors" class="invalid-feedback">
+                <div *ngIf="f.rate.errors.required">Rate is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="hours">Hours</label>
+            <input type="text" formControlName="hours" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.hours.errors }" />
+            <div *ngIf="submitted && f.hours.errors" class="invalid-feedback">
+                <div *ngIf="f.hours.errors.required">Hours is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Save
+        </button>
+        <a routerLink="/admin/jobs" class="btn btn-link">Cancel</a>
+    </div>
+</form>
+</div>

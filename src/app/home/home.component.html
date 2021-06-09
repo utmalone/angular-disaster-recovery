@@ -1,0 +1,30 @@
+﻿<style>
+    .disaster{
+    color:rgb(78, 78, 78);
+}
+.welcome{
+    margin-top:2rem;
+    font-family: Tahoma ;
+}
+.dr{
+    margin-top: 8rem;
+    margin-bottom: 24rem;
+    font-size: 6rem;
+    font-family: Garamond;
+}
+.r{
+    font-size: 8rem;
+}
+.recovery{
+    font-size: 6rem
+}
+</style>
+
+
+<div class="text-center p-4">
+    <div class="container">
+        <h2 class="welcome">Welcome {{user.firstName}}</h2>
+        <p><a routerLink="/users">Manage Users</a></p>
+        <h1 class="dr"><span class="disaster">Disaster</span><span class="recovery">Recovery</span></h1>
+    </div>
+</div>
