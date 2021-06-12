@@ -38,13 +38,13 @@ export class MachineService {
     }
 
     update(code, params) {
-        return this.http.put(`${environment.apiUrl}/admin/machine/${code}`, params)
+        return this.http.put(`${environment.apiUrl}/machine/${code}`, params)
             .pipe(map(x => {
                 // update stored user if the logged in user updated their own record
                 if (code == this.machineValue.code) {
                     // update local storage
                     const user = { ...this.machineValue, ...params };
-                    localStorage.setItem('job', JSON.stringify(user));
+                    localStorage.setItem('machine', JSON.stringify(user));
 
                     // publish updated user to subscribers
                     this.userSubject.next(user);

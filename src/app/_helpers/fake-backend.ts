@@ -41,6 +41,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                         url: "http://localhost:3000/jobs",
                       });
                       return next.handle(request).pipe(delay(500));
+                case url.endsWith('admin/timecard') && method === 'GET' :
+                    request = request.clone({
+                        url: "http://localhost:3000/timecard",
+                      });
+                      return next.handle(request).pipe(delay(500));
                 case url.endsWith('/users') && method === 'GET':
                     return getUsers();
                 case url.match(/\/users\/\d+$/) && method === 'GET':

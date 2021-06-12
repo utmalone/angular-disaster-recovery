@@ -26,11 +26,11 @@ export class TimecardService {
     }
 
     getAll() {
-        return this.http.get<Timecard[]>(`${environment.apiUrl}/timecard`);
+        return this.http.get<Timecard[]>(`http://localhost:3000/timecard`);
     }
 
     getByCode(code: string) {
-        return this.http.get<Timecard>(`${environment.apiUrl}/timecard/${code}`);
+        return this.http.get<Timecard>(`http://localhost/timecard/` + code);
     }
 
     // update(code, params) {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '@app/_models';
-import { Timecard } from '@app/_models/timecard';
-import { TimecardService } from '@app/_services/timecard.service';
+import { User } from '../../_models';
+import { Timecard } from '../../_models/timecard';
+import { TimecardService } from '../../_services/timecard.service';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -12,8 +12,6 @@ import { first } from 'rxjs/operators';
 export class UserTimecardComponent implements OnInit {
 
 
-  users: Timecard;
-
 //   constructor(private accountService: AccountService) {
 //     this.accountService.user.subscribe(x => this.user = x);
 
@@ -21,7 +19,7 @@ export class UserTimecardComponent implements OnInit {
 //     this.accountService.logout();
 // }
 
-card = null;
+card: any[];
 
 constructor(private timecard: TimecardService) {}
 
