@@ -1,1 +1,33 @@
-<app-admin-nav></app-admin-nav>>
+<h1>Machines</h1>
+<a routerLink="machine/add" class="btn btn-sm btn-success mb-2">Add Job</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 30%">Machine Code</th>
+            <th style="width: 30%">Description</th>
+            <th style="width: 30%">Rate</th>
+            <th style="width: 30%">Max Daily Hours</th>
+            <th style="width: 10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let machine of machine">
+            <td>{{machine.code}}</td>
+            <td>{{machine.description}}</td>
+            <td>{{machine.rate}}</td>
+            <td>{{machine.hours}}</td>
+            <td style="white-space: nowrap">
+                <a routerLink="machine/edit/{{machine.id}}" class="btn btn-sm btn-primary mr-1">Edit</a>
+                <button (click)="deleteMachine(machine.id)" class="btn btn-sm btn-danger btn-delete-machine" [disabled]="machine.isDeleting">
+                    <span *ngIf="machine.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!machine.isDeleting">Delete</span>
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="!machine">
+            <td colspan="4" class="text-center">
+                <span class="align-center">No Data</span>
+            </td>
+        </tr>
+    </tbody>
+</table>

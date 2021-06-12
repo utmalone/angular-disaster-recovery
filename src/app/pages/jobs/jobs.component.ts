@@ -8,7 +8,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./jobs.component.less']
 })
 export class JobsComponent implements OnInit {
-  jobs = null;
+  jobs: any[];
 
   constructor(private accountService: JobService) {}
 
@@ -18,11 +18,11 @@ export class JobsComponent implements OnInit {
           .subscribe(jobs => this.jobs = jobs);
   }
 
-  deleteUser(code: string) {
-      const user = this.jobs.find(x => x.id === code);
-      user.isDeleting = true;
-      this.accountService.delete(code)
-          .pipe(first())
-          .subscribe(() => this.jobs = this.jobs.filter(x => x.id !== code));
+  deleteJobs(id: string) {
+    const user = this.jobs.find(x => x.id === id);
+    user.isDeleting = true;
+    this.accountService.delete(id)
+        .pipe(first())
+        .subscribe(() => this.jobs = this.jobs.filter(x => x.id !== id));
   }
 }

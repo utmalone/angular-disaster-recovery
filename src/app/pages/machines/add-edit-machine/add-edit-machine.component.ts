@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../../../_services';
-import { JobService } from '../../../_services/jobs.services';
+import { MachineService } from '../../../_services/machine.service';
 import { first } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-add-edit-jobs',
-  templateUrl: './add-edit-jobs.component.html',
-  styleUrls: ['./add-edit-jobs.component.less']
+  selector: 'app-add-edit-machine',
+  templateUrl: './add-edit-machine.component.html',
+  styleUrls: ['./add-edit-machine.component.less']
 })
-export class AddEditJobsComponent implements OnInit {
+export class AddEditMachineComponent implements OnInit {
   
   form: FormGroup;
   id: string;
@@ -22,7 +22,7 @@ export class AddEditJobsComponent implements OnInit {
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
       private router: Router,
-      private jobService: JobService,
+      private jobService: MachineService,
       private alertService: AlertService
   ) {}
 
@@ -77,7 +77,7 @@ export class AddEditJobsComponent implements OnInit {
           .pipe(first())
           .subscribe({
               next: () => {
-                  this.alertService.success('Job added successfully', { keepAfterRouteChange: true });
+                  this.alertService.success('Machine added successfully', { keepAfterRouteChange: true });
                   this.router.navigate(['../../'], { relativeTo: this.route });
               },
               error: error => {

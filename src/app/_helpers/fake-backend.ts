@@ -2,36 +2,59 @@
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, materialize, dematerialize } from 'rxjs/operators';
+import { v4 as uuidv4 } from "uuid";
 
 // array in local storage for registered users
 const usersKey = 'angular-10-registration-login-example-users';
 const jobsKey = 'angluar-10-jobs-exmple-jobs';
 let users = JSON.parse(localStorage.getItem(usersKey)) || [];
-let jobs = JSON.parse(localStorage.getItem(jobsKey)) || [];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
+
+    
+
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
 
         return handleRoute();
 
         function handleRoute() {
+            
+
             switch (true) {
                 case url.endsWith('/users/authenticate') && method === 'POST':
                     return authenticate();
                 case url.endsWith('/users/register') && method === 'POST':
                     return register();
+                case url.endsWith('/machine/add-edit') && method === 'POST' :
+                    return postMachine();
                 case url.endsWith('/jobs/add-edit') && method === 'POST' :
-                    return registerJob();
+                    return postJob();
+                case url.endsWith('/machine') && method === 'GET' :
+                    request = request.clone({
+                        url: "http://localhost:3000/machine",
+                      });
+                      return next.handle(request).pipe(delay(500));                   
                 case url.endsWith('/jobs') && method === 'GET' :
-                    return getJobs();
+                    request = request.clone({
+                        url: "http://localhost:3000/jobs",
+                      });
+                      return next.handle(request).pipe(delay(500));
                 case url.endsWith('/users') && method === 'GET':
                     return getUsers();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
                 case url.match(/\/jobs\/\d+$/) && method === 'PUT':
-                    return getJobs();
+                    const jobId = getJobId(url);
+                    return of(new HttpResponse({ status: 200, body: jobId })).pipe(
+                    delay(500)
+                    );
+                case url.match(/\/machine\/\d+$/) && method === 'PUT':
+                    const machineId = getMachineId(url);
+                    return of(new HttpResponse({ status: 200, body: machineId })).pipe(
+                    delay(500)
+                    );
                 case url.match(/\/users\/\d+$/) && method === 'PUT':
                     return updateUser();
                 case url.match(/\/users\/\d+$/) && method === 'DELETE':
@@ -43,6 +66,29 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         // route functions
+        function postJob(){
+            const { body } = request.clone();
+            // assign a new uuid to new employee
+            body.id = uuidv4();
+            return of(new HttpResponse({ status: 200, body })).pipe(delay(500));
+        }
+
+        function postMachine(){
+            const { body } = request.clone();
+            // assign a new uuid to new employee
+            body.id = uuidv4();
+            return of(new HttpResponse({ status: 200, body })).pipe(delay(500));
+        }
+
+        function getJobId(url: any) {
+            const urlValues = url.split("/");
+            return urlValues[urlValues.length - 1];
+          }
+
+          function getMachineId(url: any) {
+            const urlValues = url.split("/");
+            return urlValues[urlValues.length - 1];
+          }
 
         function authenticate() {
             const { username, password } = body;
@@ -67,19 +113,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok();
         }
 
-        function registerJob() {
-            const job = body
-
-            if (jobs.find(x => x.code === job.code)) {
-                return error('Job Code "' + job.code + '" is already taken')
-            }
-
-            job.code = jobs.length ? Math.max(...jobs.map(x => x.code)) + 1 : 1;
-            jobs.push(job);
-            localStorage.setItem(usersKey, JSON.stringify(jobs));
-            return ok();
-        }
-
 
 
         function getUsers() {
@@ -87,10 +120,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok(users.map(x => basicDetails(x)));
         }
 
-        function getJobs(){
-            if(!isLoggedIn()) return unauthorized();
-            return ok(jobs.map(x => jobDeatils))
-        }
 
         function getUserById() {
             if (!isLoggedIn()) return unauthorized();
@@ -117,23 +146,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok();
         }
 
-        function  updateJobs(){
-            if (!isLoggedIn()) return unauthorized();
-
-            let params = body;
-            let user = users.find(x => x.id === idFromUrl());
-
-            // only update password if entered
-            // if (!params.password) {
-            //     delete params.password;
-            // }
-
-            // update and save user
-            Object.assign(jobs, params);
-            localStorage.setItem(jobsKey, JSON.stringify(jobs));
-
-        }
-
         function deleteUser() {
             if (!isLoggedIn()) return unauthorized();
 
@@ -143,14 +155,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok();
         }
 
-        function deleteJobs() {
-            if (!isLoggedIn()) return unauthorized();
-
-            jobs = jobs.filter(x => x.id !== idFromUrl());
-
-            localStorage.setItem(jobsKey, JSON.stringify(jobs));
-            return ok();
-        }
 
         // helper functions
 
@@ -172,11 +176,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function basicDetails(user) {
             const { id, username, firstName, lastName } = user;
             return { id, username, firstName, lastName };
-        }
-
-        function jobDeatils(job){
-            const { code, description, rate, hours } = job;
-            return { code, description, rate, hours };
         }
 
         function isLoggedIn() {

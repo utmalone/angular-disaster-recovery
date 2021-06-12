@@ -1,6 +1,7 @@
-export class Timecard{
+export class Machine{
     code: string;
-    name: string;
+    description: string;
+    rate: number;
     hours: number;
-    amount: number;
+    token: string;
 }

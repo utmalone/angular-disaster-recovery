@@ -14,19 +14,21 @@ import { AuthGuard } from './_helpers';
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 const usersModule = () => import('./users/users.module').then(x => x.UsersModule);
+const jobsModule = () => import('./pages/jobs/jobs.module').then(x => x.JobsModule);
+const machineModule = () => import('./pages/machines/machine.module').then(x => x.MachineModule);
 
 const routes: Routes = [
     { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard]},
     { path: 'user', component: UserPageComponent, canActivate: [AuthGuard]},
     { path:'admin/timecard', component: AdminTimecardComponent, canActivate: [AuthGuard]},
-    { path: 'admin/jobs', component: JobsComponent, canActivate: [AuthGuard]},
-    { path: 'admin/jobs/add-edit', component: AddEditJobsComponent, canActivate: [AuthGuard]},
-    { path: 'admin/machine', component: MachinesComponent, canActivate: [AuthGuard]},
+    // { path: 'admin/machine', component: MachinesComponent, canActivate: [AuthGuard]},
     { path:'timecard/user', component: UserTimecardComponent, canActivate: [AuthGuard]},
     { path: 'user/timecard/submit', component: UserSubmissionComponent, canActivate: [AuthGuard]},
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'users', loadChildren: usersModule, canActivate: [AuthGuard] },
     { path: 'account', loadChildren: accountModule },
+    { path: 'machine', loadChildren: machineModule, canActivate: [AuthGuard]},
+    { path: 'jobs', loadChildren: jobsModule, canActivate: [AuthGuard]},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

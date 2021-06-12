@@ -1,7 +1,5 @@
-<app-admin-nav></app-admin-nav>
-
 <h1>Jobs</h1>
-<a routerLink="/admin/jobs/add-edit" class="btn btn-sm btn-success mb-2">Add Job</a>
+<a routerLink="jobs/add" class="btn btn-sm btn-success mb-2">Add Job</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -13,16 +11,16 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let user of jobs">
-            <td>{{user.code}}</td>
-            <td>{{user.description}}</td>
-            <td>{{user.rate}}</td>
-            <td>{{user.hours}}</td>
+        <tr *ngFor="let jobs of jobs">
+            <td>{{jobs.code}}</td>
+            <td>{{jobs.description}}</td>
+            <td>{{jobs.rate}}</td>
+            <td>{{jobs.hours}}</td>
             <td style="white-space: nowrap">
-                <a routerLink="edit/{{user.code}}" class="btn btn-sm btn-primary mr-1">Edit</a>
-                <button (click)="deleteUser(user.code)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
-                    <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
-                    <span *ngIf="!user.isDeleting">Delete</span>
+                <a routerLink="jobs/edit/{{jobs.id}}" class="btn btn-sm btn-primary mr-1">Edit</a>
+                <button (click)="deleteJobs(jobs.id)" class="btn btn-sm btn-danger btn-delete-jobs" [disabled]="jobs.isDeleting">
+                    <span *ngIf="jobs.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!jobs.isDeleting">Delete</span>
                 </button>
             </td>
         </tr>
