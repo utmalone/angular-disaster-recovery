@@ -18,9 +18,9 @@ export class MachinesComponent implements OnInit {
           .subscribe(machine => this.machine = machine);
   }
 
-  deleteJobs(id: string) {
-    const user = this.machine.find(x => x.id === id);
-    user.isDeleting = true;
+  deleteMachine(id: string) {
+    const machine = this.machine.find(x => x.id === id);
+    machine.isDeleting = true;
     this.accountService.delete(id)
         .pipe(first())
         .subscribe(() => this.machine = this.machine.filter(x => x.id !== id));
