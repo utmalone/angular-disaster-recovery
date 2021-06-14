@@ -13,6 +13,13 @@
       "rate": "13",
       "hours": "23",
       "id": 2
+    },
+    {
+      "code": "MH-1976",
+      "description": "Eating poo",
+      "rate": "986",
+      "hours": "12",
+      "id": 3
     }
   ],
   "machine": [
@@ -29,6 +36,13 @@
       "rate": "12",
       "hours": "30",
       "id": 2
+    },
+    {
+      "code": "Jack Hammer",
+      "description": "Used for breaking concrete",
+      "rate": "13",
+      "hours": "6",
+      "id": 3
     }
   ],
   "timecard": [
