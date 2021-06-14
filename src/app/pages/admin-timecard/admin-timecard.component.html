@@ -17,10 +17,17 @@
             <td>{{time.name}}</td>
             <td>{{time.hours}} Hrs</td>
             <td>${{time.ammount}}</td>
+
+
             <td style="white-space: nowrap">
-                <button (click)="onApprove()" class="btn btn-sm btn-primary mr-2">Approve</button>
-                <button class="btn btn-sm btn-danger">Reject</button>
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <button (click)="onApprove()" class="btn btn-sm btn-primary mr-2">
+                        <span formControlName="approval" [(ngModel)]="approval">Approve</span></button>
+                    <button (click)="onReject()" class="btn btn-sm btn-danger">Reject</button>
+                </form>
             </td>
+
+            
         </tr>
         <tr *ngIf="!card">
             <td colspan="4" class="text-center">

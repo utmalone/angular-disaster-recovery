@@ -87,7 +87,7 @@
 
     <div class="ml-4 mt-4 form-group">
         <button [disabled]="loading" class="btn btn-primary">
-            <span routerLink="/timecard/user" *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
             Save
         </button>
         <a routerLink="/timecard/user" class="btn btn-link">Cancel</a>

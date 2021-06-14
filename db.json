@@ -13,13 +13,6 @@
       "rate": "13",
       "hours": "23",
       "id": 2
-    },
-    {
-      "code": "MH-1976",
-      "description": "Eating poo",
-      "rate": "986",
-      "hours": "12",
-      "id": 3
     }
   ],
   "machine": [
@@ -61,6 +54,22 @@
       "ammount": "1094",
       "id": 2,
       "approval": "Under Review"
+    },
+    {
+      "code": "TX-325",
+      "name": "Duston Malone",
+      "hours": 4,
+      "ammount": 52,
+      "approval": "Under Review",
+      "id": 3
+    },
+    {
+      "code": "FL-2096",
+      "name": "Selena Malone",
+      "hours": 6,
+      "ammount": 78,
+      "approval": "Under Review",
+      "id": 4
     }
   ]
 }

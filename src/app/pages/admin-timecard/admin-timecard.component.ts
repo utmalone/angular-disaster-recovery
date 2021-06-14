@@ -4,6 +4,7 @@ import { TimecardService } from '../../_services/timecard.service';
 import { first } from 'rxjs/operators';
 import { AlertService } from '../../_services/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-timecard',
@@ -19,12 +20,14 @@ export class AdminTimecardComponent implements OnInit {
 //     this.accountService.logout();
 // }
 
+form: FormGroup;
 card = null;
 loading = false;
 approve: boolean;
 id: string;
 
 constructor(
+  private formBuilder: FormBuilder,
   private route: ActivatedRoute, 
   private router: Router, 
   private timecard: TimecardService, 
@@ -35,10 +38,15 @@ ngOnInit() {
     this.timecard.getAll()
         .pipe(first())
         .subscribe(card => this.card = card);
+
+        this.form = this.formBuilder.group({
+          approval: ['']
+      });
+
 }
 
 onApprove(){
-  this.timecard.update(this.id, "Approved")
+  this.timecard.update(this.id, this.form.value)
           .pipe(first())
           .subscribe({
               next: () => {
