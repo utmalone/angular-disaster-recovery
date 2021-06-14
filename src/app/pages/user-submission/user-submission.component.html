@@ -1,5 +1,3 @@
-
-
 <h1 class="ml-4 mb-4 mt-5">Timesheet Submission</h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-row ml-4 mb-4">
@@ -17,9 +15,9 @@
                 <div *ngIf="f.name.errors.required">Name is required</div>
             </div>
         </div>
-        <div class="form-group ml-4 col-sm-3">
-            <label for="username">Date</label>
-            <div class="form-group row">
+        <div class=" ml-4 col-sm-3">
+            <label>Date</label>
+            <div>
                 <div class="col-10">
                   <input class="form-control" type="date" value="2021-06-13" id="example-date-input">
                 </div>
@@ -66,7 +64,7 @@
                       </select>
                 </div>
                 <div (change)="inputChangeMachine($event)" class="col-sm-3">
-                    Hrs. worked<input style="width:30%" class="ml-3" type="number"/>
+                    Hrs. worked<input  style="width:30%" class="ml-3" type="number"/>
                 </div>
                 <div class="col-sm-3">
                     Total: <span>${{selectedMachine * mh2}}</span>
@@ -77,12 +75,19 @@
         </div>
     </div>
 
+    <div class="d-none">
+        <span class="form-group float-right mr-5">
+            Total Amount: <input class="form-control" [(ngModel)]="totalA" formControlName="ammount" type="number" value="{{totalAmount()}}"/>
+            Total Hours: <input class="form-control" [(ngModel)]="totalH" formControlName="hours" type="number" value="{{totalHours()}}"/>
+        </span>
+    </div>
+
 
     
 
     <div class="ml-4 mt-4 form-group">
         <button [disabled]="loading" class="btn btn-primary">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            <span routerLink="/timecard/user" *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
             Save
         </button>
         <a routerLink="/timecard/user" class="btn btn-link">Cancel</a>

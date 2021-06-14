@@ -26,6 +26,8 @@ export class UserSubmissionComponent implements OnInit {
   selectedMachine: number = 0;
   mh2: number = 0;
   mh1: number = 0;
+  totalH: number = 0;
+  totalA: number = 0;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -60,6 +62,9 @@ export class UserSubmissionComponent implements OnInit {
       this.form = this.formBuilder.group({
           code: ['', Validators.required],
           name: ['', Validators.required],
+          hours: [''],
+          ammount: [''],
+          approval: ['Under Review']
       });
 
       if (!this.isAddMode) {
@@ -72,6 +77,15 @@ export class UserSubmissionComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.form.controls; }
 
+  totalHours(){
+  this.totalH = (this.mh1 - 10 + 10)+(this.mh2 - 10 + 10)
+    return this.totalH;
+  }
+
+  totalAmount(){
+    this.totalA = (this.selectedJob * this.mh1) + (this.selectedMachine * this.mh2);
+    return this.totalA;
+  }
 
   inputChangeHandler (event: any) {
     //update the ui
@@ -115,8 +129,8 @@ export class UserSubmissionComponent implements OnInit {
           .pipe(first())
           .subscribe({
               next: () => {
-                  this.alertService.success('User added successfully', { keepAfterRouteChange: true });
-                  this.router.navigate(['../'], { relativeTo: this.route });
+                  this.alertService.success('Job submitted successfully', { keepAfterRouteChange: true });
+                  this.router.navigate(['/timecard/user'], { relativeTo: this.route });
               },
               error: error => {
                   this.alertService.error(error);
