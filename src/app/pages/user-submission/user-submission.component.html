@@ -1,48 +1,89 @@
 
 
-<h1 class="ml-4 mb-4 mt-5">Timesheet Approval</h1>
+<h1 class="ml-4 mb-4 mt-5">Timesheet Submission</h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-row">
-        <div class="form-group col">
-            <label for="firstName">First Name</label>
-            <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                <div *ngIf="f.firstName.errors.required">First Name is required</div>
+    <div class="form-row ml-4 mb-4">
+        <div class="form-group col-sm-3">
+            <label for="code">Site Code</label>
+            <input type="text" formControlName="code" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.code.errors }" />
+            <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+                <div *ngIf="f.firstName.errors.required">Site Code is required</div>
             </div>
         </div>
-        <div class="form-group col">
-            <label for="lastName">Last Name</label>
-            <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-                <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+        <div class="form-group ml-4 col-sm-3">
+            <label for="name">Name</label>
+            <input type="name" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Name is required</div>
             </div>
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col">
-            <label for="username">Username</label>
-            <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                <div *ngIf="f.username.errors.required">Username is required</div>
-            </div>
-        </div>
-        <div class="form-group col">
-            <label for="password">
-                Password
-                <em *ngIf="!isAddMode">(Leave blank to keep the same password)</em>
-            </label>
-            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                <div *ngIf="f.password.errors.required">Password is required</div>
-                <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-            </div>
+        <div class="form-group ml-4 col-sm-3">
+            <label for="username">Date</label>
+                <input type="text"
+                class="form-control"
+                placeholder="Datepicker"
+                bsDatepicker>
         </div>
     </div>
-    <div class="form-group">
+
+    <div class="container-fluid text-center mb-2 ml-3">
+        <div style="width:90%" class="border rounded border-secondary">
+            <h2 class="text-left mt-1 ml-1">Labor Entry</h2>
+            <div class="row mt-4 mb-4">
+                <div class="ml-4 col-sm-2">
+                    <label for="labelCode">Labor Code:</label>
+                </div>
+                <div class="col-sm-3">
+                    <select (change)="selectChangeHandler($event)" class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option *ngFor="let job of jobs" value={{job.rate}}>{{job.code}}</option>
+                      </select>
+                </div>
+                <div (change)="inputChangeHandler($event)" class="col-sm-3">
+                    Hrs. worked<input style="width:30%" class="ml-3" type="number"/>
+                </div>
+                <div class="col-sm-3">
+                    Total: <span>${{selectedJob * mh1}}</span>
+                </div>
+                
+            </div>
+            <button class="btn btn-success mb-1">ADD</button>
+        </div>
+    </div>
+
+    <div class="container-fluid text-center mb-2 ml-3">
+        <div style="width:90%" class="border rounded border-secondary">
+            <h2 class="text-left mt-1 ml-1">Machine Entry</h2>
+            <div class="row mt-4 mb-4">
+                <div class="ml-4 col-sm-2">
+                    <label for="labelCode">Machine Code:</label>
+                </div>
+                <div class="col-sm-3">
+                    <select (change)="selectChangeMachine($event)" class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option *ngFor="let machine of machine" value={{machine.rate}}>{{machine.code}}</option>
+                      </select>
+                </div>
+                <div (change)="inputChangeMachine($event)" class="col-sm-3">
+                    Hrs. worked<input style="width:30%" class="ml-3" type="number"/>
+                </div>
+                <div class="col-sm-3">
+                    Total: <span>${{selectedMachine * mh2}}</span>
+                </div>
+                
+            </div>
+            <button class="btn btn-success mb-1">ADD</button>
+        </div>
+    </div>
+
+
+    
+
+    <div class="ml-4 mt-4 form-group">
         <button [disabled]="loading" class="btn btn-primary">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
             Save
         </button>
-        <a routerLink="/users" class="btn btn-link">Cancel</a>
+        <a routerLink="/timecard/user" class="btn btn-link">Cancel</a>
     </div>
 </form>

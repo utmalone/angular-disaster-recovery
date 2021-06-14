@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         this.submitted = true;
 
 
-    if (this.form.value.username == 'admin', this.form.value.password == '123456'){
+    if (this.form.value.username == 'admin' && this.form.value.password == '123456'){
         this.loading = true;
         this.accountService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                 }
             });
-      } else if (this.form.value.username != 'contractor', this.form.value.password != 'contractor'){
+      } else {
         this.loading = true;
         this.accountService.login(this.f.username.value, this.f.password.value)
             .pipe(first())

@@ -29,25 +29,29 @@ export class TimecardService {
         return this.http.get<Timecard[]>(`http://localhost:3000/timecard`);
     }
 
-    getByCode(code: string) {
-        return this.http.get<Timecard>(`http://localhost/timecard/` + code);
+    getById(code: string) {
+        return this.http.get<Timecard>(`http://localhost/3000/timecard` + code);
     }
 
-    // update(code, params) {
-    //     return this.http.put(`${environment.apiUrl}/users/${code}`, params)
-    //         .pipe(map(x => {
-    //             // update stored user if the logged in user updated their own record
-    //             if (code == this.timeValue.code) {
-    //                 // update local storage
-    //                 const user = { ...this.timeValue, ...params };
-    //                 localStorage.setItem('user', JSON.stringify(user));
+    addTimecard(card: Timecard){
+        return this.http.post("http://localhost:3000/timecard", card);
+    }
 
-    //                 // publish updated user to subscribers
-    //                 this.timeSubject.next(user);
-    //             }
-    //             return x;
-    //         }));
-    // }
+    update(code, params) {
+        return this.http.put(`http://localhost:3000/timecard` + code, params)
+            .pipe(map(x => {
+                // update stored user if the logged in user updated their own record
+                if (code == this.timeValue.code) {
+                    // update local storage
+                    const user = { ...this.timeValue, ...params };
+                    localStorage.setItem('timecard', JSON.stringify(user));
+
+                    // publish updated user to subscribers
+                    this.timeSubject.next(user);
+                }
+                return x;
+            }));
+    }
 
     // delete(id: string) {
     //     return this.http.delete(`${environment.apiUrl}/users/${id}`)

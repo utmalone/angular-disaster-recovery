@@ -1,4 +1,4 @@
-﻿import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+﻿import { NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -19,7 +19,7 @@ import { UserSubmissionComponent } from './pages/user-submission/user-submission
 import { AdminTimecardComponent } from './pages/admin-timecard/admin-timecard.component';
 import { CommonModule } from '@angular/common';
 import { JobsModule } from './pages/jobs/jobs.module';;
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
@@ -28,7 +28,8 @@ import { JobsModule } from './pages/jobs/jobs.module';;
         HttpClientModule,
         AppRoutingModule,
         CommonModule,
-        JobsModule
+        JobsModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,

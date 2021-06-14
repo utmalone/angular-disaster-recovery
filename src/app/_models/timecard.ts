@@ -1,6 +1,7 @@
 export class Timecard{
+    id: number;
     code: string;
     name: string;
     hours: number;
-    amount: number;
+    ammount: number;
 }

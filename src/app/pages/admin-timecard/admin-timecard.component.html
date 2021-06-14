@@ -16,19 +16,13 @@
             <td>{{time.code}}</td>
             <td>{{time.name}}</td>
             <td>{{time.hours}} Hrs</td>
-            <td>$ {{time.amount}}</td>
+            <td>${{time.ammount}}</td>
             <td style="white-space: nowrap">
-
-                <button (click)="toggleNamedColor(friend)" (click)="changeText(friend, $event)" ion-button round [color]="friend.ionicNamedColor" item-end >{{friend.text}}</button> 
-
-                <!-- <a routerLink="edit/{{user.id}}" class="btn btn-sm btn-primary mr-1">Edit</a>
-                <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
-                    <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
-                    <span *ngIf="!user.isDeleting">Delete</span>
-                </button> -->
+                <button (click)="onApprove()" class="btn btn-sm btn-primary mr-2">Approve</button>
+                <button class="btn btn-sm btn-danger">Reject</button>
             </td>
         </tr>
-        <tr *ngIf="!users">
+        <tr *ngIf="!card">
             <td colspan="4" class="text-center">
                 <span class="align-center">No Data</span>
             </td>

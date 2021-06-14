@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService, AlertService } from '@app/_services';
+import { AlertService } from '../../_services';
+import { TimecardService } from '../../_services/timecard.service'
 import { first } from 'rxjs/operators';
+import { JobService } from '../../_services/jobs.services';
+import { MachineService } from '../../_services/machine.service';
 
 @Component({
   selector: 'app-user-submission',
@@ -10,23 +13,43 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./user-submission.component.less']
 })
 export class UserSubmissionComponent implements OnInit {
+
+
   form: FormGroup;
   id: string;
   isAddMode: boolean;
   loading = false;
   submitted = false;
+  jobs: any[];
+  machine: any[];
+  selectedJob: number = 0;
+  selectedMachine: number = 0;
+  mh2: number = 0;
+  mh1: number = 0;
 
   constructor(
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
       private router: Router,
-      private accountService: AccountService,
-      private alertService: AlertService
+      private timecardService: TimecardService,
+      private alertService: AlertService,
+      private jobService: JobService,
+      private machineService: MachineService
+
   ) {}
 
   ngOnInit() {
+
       this.id = this.route.snapshot.params['id'];
       this.isAddMode = !this.id;
+
+      this.machineService.getAll()
+      .pipe(first())
+      .subscribe(machine => this.machine = machine);
+
+      this.jobService.getAll()
+      .pipe(first())
+      .subscribe(jobs => this.jobs = jobs);
       
       // password not required in edit mode
       const passwordValidators = [Validators.minLength(6)];
@@ -35,14 +58,12 @@ export class UserSubmissionComponent implements OnInit {
       }
 
       this.form = this.formBuilder.group({
-          firstName: ['', Validators.required],
-          lastName: ['', Validators.required],
-          username: ['', Validators.required],
-          password: ['', passwordValidators]
+          code: ['', Validators.required],
+          name: ['', Validators.required],
       });
 
       if (!this.isAddMode) {
-          this.accountService.getById(this.id)
+          this.timecardService.getById(this.id)
               .pipe(first())
               .subscribe(x => this.form.patchValue(x));
       }
@@ -50,6 +71,27 @@ export class UserSubmissionComponent implements OnInit {
 
   // convenience getter for easy access to form fields
   get f() { return this.form.controls; }
+
+
+  inputChangeHandler (event: any) {
+    //update the ui
+    this.mh1 = event.target.value;
+  }
+
+  inputChangeMachine (event: any) {
+    //update the ui
+    this.mh2 = event.target.value;
+  }
+
+  selectChangeMachine (event: any) {
+    //update the ui
+    this.selectedMachine = event.target.value;
+  }
+
+  selectChangeHandler (event: any) {
+    //update the ui
+    this.selectedJob = event.target.value;
+  }
 
   onSubmit() {
       this.submitted = true;
@@ -65,33 +107,16 @@ export class UserSubmissionComponent implements OnInit {
       this.loading = true;
       if (this.isAddMode) {
           this.createUser();
-      } else {
-          this.updateUser();
       }
   }
 
   private createUser() {
-      this.accountService.register(this.form.value)
+      this.timecardService.addTimecard(this.form.value)
           .pipe(first())
           .subscribe({
               next: () => {
                   this.alertService.success('User added successfully', { keepAfterRouteChange: true });
                   this.router.navigate(['../'], { relativeTo: this.route });
-              },
-              error: error => {
-                  this.alertService.error(error);
-                  this.loading = false;
-              }
-          });
-  }
-
-  private updateUser() {
-      this.accountService.update(this.id, this.form.value)
-          .pipe(first())
-          .subscribe({
-              next: () => {
-                  this.alertService.success('Update successful', { keepAfterRouteChange: true });
-                  this.router.navigate(['../../'], { relativeTo: this.route });
               },
               error: error => {
                   this.alertService.error(error);

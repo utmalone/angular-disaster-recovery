@@ -38,19 +38,20 @@ export class JobService {
     }
 
     update(code, params) {
-        return this.http.put(`${environment.apiUrl}/admin/jobs/${code}`, params)
-            .pipe(map(x => {
-                // update stored user if the logged in user updated their own record
-                if (code == this.jobValue.code) {
-                    // update local storage
-                    const user = { ...this.jobValue, ...params };
-                    localStorage.setItem('job', JSON.stringify(user));
+        const job = Job
+        return this.http.put<Job>(`http:localhost:3000/jobs/` + code, JSON.stringify(job),params)
+            // .pipe(map(x => {
+            //     // update stored user if the logged in user updated their own record
+            //     if (code == this.jobValue.code) {
+            //         // update local storage
+            //         const user = { ...this.jobValue, ...params };
+            //         localStorage.setItem('job', JSON.stringify(user));
 
-                    // publish updated user to subscribers
-                    this.userSubject.next(user);
-                }
-                return x;
-            }));
+            //         // publish updated user to subscribers
+            //         this.userSubject.next(user);
+            //     }
+            //     return x;
+            // }));
     }
 
     delete(id: string) {
